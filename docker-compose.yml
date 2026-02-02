@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: mdd
+    environment:
+      - POSTGRES_USER=mdd_user
+      - POSTGRES_PASSWORD=md_password
+      - POSTGRES_DB=mdd
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
