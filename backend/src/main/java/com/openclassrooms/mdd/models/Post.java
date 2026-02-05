@@ -8,11 +8,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
-@Data
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = {"topic", "author"})
+@EqualsAndHashCode(of = "id")
 public class Post {
 
     @Id
@@ -22,15 +25,18 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String content;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 }

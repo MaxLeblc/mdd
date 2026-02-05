@@ -15,11 +15,14 @@ import java.util.List;
     @UniqueConstraint(columnNames = "email"),
     @UniqueConstraint(columnNames = "username")
 })
-@Data
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "subscriptions")
+@EqualsAndHashCode(of = "id")
 public class User {
 
     @Id
@@ -45,7 +48,7 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "subscriptions",
         joinColumns = @JoinColumn(name = "user_id"),
