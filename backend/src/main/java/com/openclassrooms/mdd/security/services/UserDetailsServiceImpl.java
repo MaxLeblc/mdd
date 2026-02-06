@@ -2,7 +2,6 @@ package com.openclassrooms.mdd.security.services;
 
 import com.openclassrooms.mdd.models.User;
 import com.openclassrooms.mdd.repository.UserRepository;
-import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,12 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        // 2. Convert it to Spring Security UserDetails
-        return org.springframework.security.core.userdetails.User
-                .builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .authorities(List.of()) // No Admin/User roles for now
-                .build();
+        // 2. Convert it to CustomUserDetails (includes ID)
+        return CustomUserDetails.build(user.getId(), user.getEmail(), user.getPassword());
     }
 }
