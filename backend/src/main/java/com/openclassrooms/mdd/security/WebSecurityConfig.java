@@ -66,7 +66,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Audience: Auth (Login/Register) and the Swagger Doc
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui/index.html").permitAll()
                 // Private: Everything else requires a connection.
                 .anyRequest().authenticated()
             );
