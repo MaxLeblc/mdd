@@ -8,6 +8,7 @@ import com.openclassrooms.mdd.models.User;
 import com.openclassrooms.mdd.repository.UserRepository;
 import com.openclassrooms.mdd.security.services.CustomUserDetails;
 import com.openclassrooms.mdd.security.jwt.JwtUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "A. Authentication", description = "Endpoints for user registration and login")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

@@ -4,6 +4,7 @@ import com.openclassrooms.mdd.models.Topic;
 import com.openclassrooms.mdd.dto.response.TopicDto;
 import com.openclassrooms.mdd.mappers.TopicMapper;
 import com.openclassrooms.mdd.services.TopicService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/topics")
+@Tag(name = "B. Topics", description = "Endpoints for managing topics")
 public class TopicController {
     
     private final TopicService topicService;

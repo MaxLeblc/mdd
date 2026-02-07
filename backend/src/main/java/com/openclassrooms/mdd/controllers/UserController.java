@@ -4,11 +4,13 @@ import com.openclassrooms.mdd.models.User;
 import com.openclassrooms.mdd.dto.response.UserDto;
 import com.openclassrooms.mdd.services.UserService;
 import com.openclassrooms.mdd.mappers.UserMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "C. Users", description = "Endpoints for user profile and subscriptions")
 public class UserController {
     
     private final UserService userService;
