@@ -3,10 +3,8 @@ package com.openclassrooms.mdd.mappers;
 import com.openclassrooms.mdd.models.Topic;
 import com.openclassrooms.mdd.dto.response.TopicDto;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
 import java.util.List;
 
-@Component
 @Mapper(componentModel = "spring")
 public interface TopicMapper {
     
