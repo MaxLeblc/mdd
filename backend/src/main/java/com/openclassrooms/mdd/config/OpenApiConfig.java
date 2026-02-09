@@ -5,8 +5,11 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class OpenApiConfig {
@@ -18,6 +21,13 @@ public class OpenApiConfig {
                         .title("MDD API")
                         .version("1.0")
                         .description("Social network for developers - REST API documentation"))
+                .tags(List.of(
+                        new Tag().name("A. Authentication").description("Endpoints for user registration and login"),
+                        new Tag().name("B. Topics").description("Endpoints for managing topics"),
+                        new Tag().name("C. Users").description("Endpoints for user profile and subscriptions"),
+                        new Tag().name("D. Posts").description("Endpoints for managing posts"),
+                        new Tag().name("E. Comments").description("Endpoints for managing comments")
+                ))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
