@@ -25,7 +25,8 @@ public class OpenApiConfig {
                         new Tag().name("A. Authentication").description("Endpoints for user registration and login"),
                         new Tag().name("B. Topics").description("Endpoints for managing topics"),
                         new Tag().name("C. Users").description("Endpoints for user profile and subscriptions"),
-                        new Tag().name("D. Posts").description("Endpoints for managing posts")
+                        new Tag().name("D. Posts").description("Endpoints for managing posts"),
+                        new Tag().name("E. Comments").description("Endpoints for managing comments")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
