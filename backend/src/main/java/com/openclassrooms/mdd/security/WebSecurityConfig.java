@@ -58,6 +58,15 @@ public class WebSecurityConfig {
         http
             // Disable CSRF because we use JWT (Stateless) tokens
             .csrf(csrf -> csrf.disable())
+            // Configure CORS to allow frontend (http://localhost:4200)
+            .cors(cors -> cors.configurationSource(request -> {
+                var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                corsConfig.setAllowedOrigins(java.util.List.of("http://localhost:4200"));
+                corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                corsConfig.setAllowedHeaders(java.util.List.of("*"));
+                corsConfig.setAllowCredentials(true);
+                return corsConfig;
+            }))
             // Handling 401 errors
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             // Session management: STATELESS (No session stored in server memory)
