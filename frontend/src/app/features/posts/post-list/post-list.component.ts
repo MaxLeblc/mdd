@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Important pour *ngFor et DatePipe
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PostService } from '../../../services/post.service';
 import { Post } from '../../../interfaces/post.interface';
-import { MatCardModule } from '@angular/material/card'; // Pour les jolies cartes
+import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -14,18 +14,18 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./post-list.component.scss'],
 })
 export class PostListComponent implements OnInit {
-  posts: Post[] = [];
-  errorMessage = '';
+  posts = signal<Post[]>([]);
+  errorMessage = signal('');
 
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
     this.postService.getPosts().subscribe({
       next: (data) => {
-        this.posts = data;
+        this.posts.set(data);
       },
       error: () => {
-        this.errorMessage = 'Impossible de charger les articles';
+        this.errorMessage.set('Impossible de charger les articles');
       },
     });
   }
