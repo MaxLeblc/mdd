@@ -1,0 +1,54 @@
+.feed-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto; // Centrer la page
+
+  .actions-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; // 2 colonnes par défaut
+    gap: 20px;
+
+    .post-card {
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: translateY(-2px); // Petit effet de levitation
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-content {
+        margin-top: 10px;
+        color: #555;
+      }
+    }
+  }
+
+  .no-posts {
+    grid-column: 1 / -1; // Prend toute la largeur
+    text-align: center;
+    margin-top: 50px;
+    font-style: italic;
+    color: #888;
+  }
+
+  .error-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 50px;
+    font-weight: 500;
+  }
+}
+
+// Mobile
+@media (max-width: 600px) {
+  .posts-grid {
+    grid-template-columns: 1fr !important; // 1 seule colonne sur mobile
+  }
+}

@@ -1,0 +1,34 @@
+.home-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .home-content {
+    text-align: center;
+
+    .logo {
+      max-width: 300px;
+      margin-bottom: 20px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+
+      button {
+        padding: 5px 30px;
+      }
+    }
+  }
+}
+
+// Mobile responsive
+@media (max-width: 600px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+}
