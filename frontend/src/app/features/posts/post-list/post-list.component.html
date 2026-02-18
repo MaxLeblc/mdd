@@ -4,15 +4,16 @@
   </div>
 
   <div class="posts-grid">
-    <div *ngIf="errorMessage" class="error-message">
-      <p>{{ errorMessage }}</p>
+    <div *ngIf="errorMessage()" class="error-message">
+      <p>{{ errorMessage() }}</p>
     </div>
 
-    <mat-card class="post-card" *ngFor="let post of posts">
+    <mat-card class="post-card" *ngFor="let post of posts()">
       <mat-card-header>
         <mat-card-title>{{ post.title }}</mat-card-title>
         <mat-card-subtitle>
-          Par {{ post.authorName }} | {{ post.createdAt | date: 'dd/MM/yyyy à HH:mm' }} | Thème: {{ post.topicName }}
+          Par {{ post.authorName }} | {{ post.createdAt | date: 'dd/MM/yyyy à HH:mm' }} | Thème:
+          {{ post.topicName }}
         </mat-card-subtitle>
       </mat-card-header>
 
@@ -27,7 +28,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <div *ngIf="posts.length === 0 && !errorMessage" class="no-posts">
+    <div *ngIf="posts().length === 0 && !errorMessage()" class="no-posts">
       <p>Aucun article pour le moment. Soyez le premier à publier !</p>
     </div>
   </div>
