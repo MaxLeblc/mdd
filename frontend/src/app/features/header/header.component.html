@@ -1,0 +1,72 @@
+<mat-toolbar class="header">
+  <div class="header-content">
+    <!-- Logo -->
+    <div class="logo" routerLink="/posts">
+      <img src="/logo.png" alt="MDD logo" class="logo" />
+    </div>
+
+    <!-- Navigation Desktop -->
+    <nav class="nav-desktop">
+      <button mat-button routerLink="/posts" routerLinkActive="active">Articles</button>
+      <button mat-button routerLink="/topics" routerLinkActive="active">Thèmes</button>
+    </nav>
+
+    <!-- Menu utilisateur Desktop -->
+    <div class="user-menu-desktop">
+      <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon class="user-avatar">account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profil</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Se déconnecter</span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <!-- Burger menu Mobile -->
+    <button mat-icon-button class="burger-menu" (click)="toggleMobileMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<!-- Sidenav Mobile -->
+<mat-sidenav-container class="mobile-sidenav-container" *ngIf="isMobileMenuOpen()">
+  <mat-sidenav #sidenav mode="over" position="end" [opened]="true" (closed)="closeMobileMenu()">
+    <div class="mobile-menu">
+      <div class="mobile-menu-header">
+        <button mat-icon-button (click)="closeMobileMenu()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <nav class="mobile-nav">
+        <button mat-button routerLink="/posts" (click)="closeMobileMenu()">
+          <mat-icon>article</mat-icon>
+          Articles
+        </button>
+        <button mat-button routerLink="/themes" (click)="closeMobileMenu()">
+          <mat-icon>topic</mat-icon>
+          Thèmes
+        </button>
+        <button mat-button routerLink="/profile" (click)="closeMobileMenu()">
+          <mat-icon>person</mat-icon>
+          Profil
+        </button>
+        <button mat-button (click)="logout()" class="logout-btn">
+          <mat-icon>logout</mat-icon>
+          Se déconnecter
+        </button>
+      </nav>
+
+      <div class="mobile-menu-footer">
+        <mat-icon class="user-avatar-mobile">account_circle</mat-icon>
+      </div>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>
