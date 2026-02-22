@@ -51,6 +51,7 @@ export class LoginComponent {
       this.authService.login({ emailOrUsername, password }).subscribe({
         next: (response) => {
           this.authService.saveToken(response.token);
+          this.authService.saveUserId(response.id);
           this.router.navigate(['/posts']);
         },
         error: (err) => {

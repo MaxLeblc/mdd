@@ -21,7 +21,7 @@ export class PostListComponent implements OnInit {
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    this.postService.getPosts().subscribe({
+    this.postService.getFeed().subscribe({
       next: (data) => {
         this.posts.set(data);
         this.sortPosts();

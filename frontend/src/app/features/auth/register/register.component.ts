@@ -60,6 +60,7 @@ export class RegisterComponent {
       this.authService.register({ username, email, password }).subscribe({
         next: (response) => {
           this.authService.saveToken(response.token);
+          this.authService.saveUserId(response.id);
           this.router.navigate(['/posts']);
         },
         error: (err) => {

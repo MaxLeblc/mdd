@@ -14,7 +14,7 @@
 
     <mat-card class="post-card" *ngFor="let post of posts()">
       <mat-card-header>
-        <mat-card-title>{{ post.title }}</mat-card-title>
+        <mat-card-title>{{ post.topicName }} - {{ post.title }}</mat-card-title>
         <mat-card-content>
           <mat-card-subtitle> Par {{ post.authorName }} </mat-card-subtitle>
           <mat-card-subtitle>

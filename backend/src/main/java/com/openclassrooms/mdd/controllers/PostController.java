@@ -32,6 +32,13 @@ public class PostController {
         return ResponseEntity.ok(postMapper.toDtos(posts));
     }
 
+    @GetMapping("/feed")
+    public ResponseEntity<List<PostDto>> getFeed(@RequestParam(defaultValue = "true") boolean sort, Principal principal) {
+        // Récupère uniquement les posts des topics auxquels l'utilisateur est abonné
+        List<Post> posts = postService.findByUserSubscriptions(principal.getName(), sort);
+        return ResponseEntity.ok(postMapper.toDtos(posts));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Long id) {
         Post post = postService.findById(id);

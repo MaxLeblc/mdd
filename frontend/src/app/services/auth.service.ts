@@ -24,8 +24,17 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
+  saveUserId(userId: number): void {
+    localStorage.setItem('userId', userId.toString());
+  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? parseInt(userId, 10) : null;
   }
 
   isLoggedIn(): boolean {
@@ -34,5 +43,6 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   }
 }
