@@ -1,7 +1,9 @@
 .feed-container {
   padding: 20px;
   max-width: 900px;
-  margin: 0 auto; // Centrer la page
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   .actions-header {
     display: flex;
@@ -16,6 +18,24 @@
 
       &:hover {
         background: #3b1370;
+      }
+    }
+
+    .sort-button {
+      background: transparent;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
       }
     }
   }

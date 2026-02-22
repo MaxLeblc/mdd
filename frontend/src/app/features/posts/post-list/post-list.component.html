@@ -1,6 +1,10 @@
 <div class="feed-container">
   <div class="actions-header">
     <button mat-raised-button color="primary">Créer un article</button>
+    <button mat-button (click)="toggleSort()" class="sort-button">
+      <mat-icon>{{ sortAscending() ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+      Trier par date
+    </button>
   </div>
 
   <div class="posts-grid">
