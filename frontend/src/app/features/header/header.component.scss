@@ -1,0 +1,144 @@
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0;
+  height: 64px;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
+
+// Logo
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  width: 120px;
+}
+
+// Navigation Desktop
+.nav-desktop {
+  display: flex;
+  gap: 10px;
+
+  button {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+
+    &.active {
+      color: #7550ec;
+      font-weight: 600;
+    }
+  }
+}
+
+// Menu utilisateur Desktop
+.user-menu-desktop {
+  display: flex;
+  align-items: center;
+
+  .user-avatar {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: #7550ec;
+  }
+}
+
+// Burger menu (hidden on desktop)
+.burger-menu {
+  display: none;
+}
+
+// Mobile Sidenav
+.mobile-sidenav-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  ::ng-deep mat-sidenav {
+    width: 280px;
+    pointer-events: auto;
+  }
+}
+
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: white;
+
+  .mobile-menu-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .mobile-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+
+    button {
+      justify-content: flex-start;
+      padding: 15px 20px;
+      font-size: 16px;
+      color: #333;
+      border-radius: 8px;
+
+      mat-icon {
+        margin-right: 15px;
+      }
+
+      &.logout-btn {
+        color: #d32f2f;
+        margin-top: 20px;
+      }
+    }
+  }
+
+  .mobile-menu-footer {
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+
+    .user-avatar-mobile {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: #7550ec;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .nav-desktop,
+  .user-menu-desktop {
+    display: none;
+  }
+
+  .burger-menu {
+    display: block;
+  }
+}

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Important pour *ngFor et DatePipe
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PostService } from '../../../services/post.service';
 import { Post } from '../../../interfaces/post.interface';
-import { MatCardModule } from '@angular/material/card'; // Pour les jolies cartes
+import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -14,19 +14,35 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./post-list.component.scss'],
 })
 export class PostListComponent implements OnInit {
-  posts: Post[] = [];
-  errorMessage = '';
+  posts = signal<Post[]>([]);
+  errorMessage = signal('');
+  sortAscending = signal(false); // false = plus récent en premier (desc), true = plus ancien en premier (asc)
 
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    this.postService.getPosts().subscribe({
+    this.postService.getFeed().subscribe({
       next: (data) => {
-        this.posts = data;
+        this.posts.set(data);
+        this.sortPosts();
       },
       error: () => {
-        this.errorMessage = 'Impossible de charger les articles';
+        this.errorMessage.set('Impossible de charger les articles');
       },
     });
+  }
+
+  toggleSort(): void {
+    this.sortAscending.set(!this.sortAscending());
+    this.sortPosts();
+  }
+
+  private sortPosts(): void {
+    const sorted = [...this.posts()].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return this.sortAscending() ? dateA - dateB : dateB - dateA;
+    });
+    this.posts.set(sorted);
   }
 }

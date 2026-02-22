@@ -16,7 +16,7 @@ import com.openclassrooms.mdd.repository.PostRepository;
 
 @Service
 public class PostService {
-    
+
     private final PostRepository postRepository;
     private final TopicRepository topicRepository;
     private final UserRepository userRepository;
@@ -28,16 +28,36 @@ public class PostService {
     }
 
     public List<Post> findAll(boolean sortByDateDesc) {
-        Sort sort = sortByDateDesc 
-            ? Sort.by("createdAt").descending() 
+        Sort sort = sortByDateDesc
+            ? Sort.by("createdAt").descending()
             : Sort.by("createdAt").ascending();
-        
-        return postRepository.findAll(sort);    
+
+        return postRepository.findAll(sort);
     }
 
     public Post findById(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Post not found with id: " + id));
+    }
+
+    public List<Post> findByUserSubscriptions(String email, boolean sortByDateDesc) {
+        // 1. Récupérer l'utilisateur avec ses abonnements
+        User user = userRepository.findById(userRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("User not found with email: " + email))
+                .getId())
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        // 2. Si pas d'abonnements, retourner liste vide
+        if (user.getSubscriptions() == null || user.getSubscriptions().isEmpty()) {
+            return List.of();
+        }
+
+        // 3. Récupérer les posts des topics auxquels l'utilisateur est abonné
+        Sort sort = sortByDateDesc
+            ? Sort.by("createdAt").descending()
+            : Sort.by("createdAt").ascending();
+
+        return postRepository.findByTopicIn(user.getSubscriptions(), sort);
     }
 
     public Post create(String email, PostCreateDto input) {

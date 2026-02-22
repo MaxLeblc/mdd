@@ -42,7 +42,7 @@ public class AuthController {
         // A. The manager is asked to authenticate the user.
         // This will automatically call UserDetailsServiceImpl.loadUserByUsername.
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
+                new UsernamePasswordAuthenticationToken(loginRequest.emailOrUsername(), loginRequest.password()));
 
         // B. If it passes, we put the auth in the security context
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,20 +52,20 @@ public class AuthController {
 
         // D. We retrieve the logged-in user's information from CustomUserDetails
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        
+
         // E. Get username from User entity
         User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow();
 
         return ResponseEntity.ok(new JwtResponse(
-                jwt, 
-                userDetails.getId(), 
+                jwt,
+                userDetails.getId(),
                 user.getUsername(),
                 userDetails.getEmail()));
     }
 
     // 2. REGISTER
     @PostMapping("/register")
-    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody RegisterRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest signUpRequest) {
         // A. Check if the email or username already exists
         if (userRepository.existsByUsername(signUpRequest.username())) {
             return ResponseEntity
@@ -89,6 +89,22 @@ public class AuthController {
         // C. Save
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        // D. Authenticate the user automatically
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signUpRequest.email(), signUpRequest.password()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // E. Generate JWT token
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        // F. Return token like login endpoint (UX improvement)
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return ResponseEntity.ok(new JwtResponse(
+                jwt,
+                userDetails.getId(),
+                user.getUsername(),
+                userDetails.getEmail()));
     }
 }
