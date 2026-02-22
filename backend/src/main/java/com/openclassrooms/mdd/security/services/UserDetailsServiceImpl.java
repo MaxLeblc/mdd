@@ -19,10 +19,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // 1. Searching for User in BDD
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    public UserDetails loadUserByUsername(String emailOrUsername) throws UsernameNotFoundException {
+        // 1. Searching for User in BDD by email or username
+        User user = userRepository.findByEmail(emailOrUsername)
+                .orElseGet(() -> userRepository.findByUsername(emailOrUsername)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found with email or username: " + emailOrUsername)));
 
         // 2. Convert it to CustomUserDetails (includes ID)
         return CustomUserDetails.build(user.getId(), user.getEmail(), user.getPassword());

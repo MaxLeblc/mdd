@@ -7,6 +7,17 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+
+    button {
+      background: #772eff;
+      color: #fff;
+      border-radius: 5px;
+      box-shadow: none;
+
+      &:hover {
+        background: #3b1370;
+      }
+    }
   }
 
   .posts-grid {
@@ -17,15 +28,35 @@
     .post-card {
       cursor: pointer;
       transition: transform 0.2s;
+      background: none;
+      box-shadow: none;
+      border: 1px solid #ddd;
+      border-radius: 5px;
 
-      &:hover {
-        transform: translateY(-2px); // Petit effet de levitation
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      mat-card-header {
+        display: flex;
+        flex-direction: column;
+
+        mat-card-content {
+          display: flex;
+          justify-content: space-between;
+          padding: 0;
+          margin: 10px 0;
+
+          mat-card-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
       }
 
       .post-content {
         margin-top: 10px;
-        color: #555;
+        color: #333333;
+      }
+
+      button {
+        color: #772eff;
       }
     }
   }

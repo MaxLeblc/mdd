@@ -8,16 +8,27 @@
     width: 100%;
     max-width: 400px;
     padding: 20px;
+    background: none;
+    border: none;
+    box-shadow: none;
+
+    mat-card-header {
+      align-self: center;
+      margin-bottom: 30px;
+    }
 
     mat-card-title {
       text-align: center;
-      margin-bottom: 20px;
     }
 
     form {
       display: flex;
       flex-direction: column;
       gap: 15px;
+
+      button {
+        color: #666;
+      }
     }
 
     .full-width {
@@ -32,6 +43,10 @@
 
       button {
         padding: 5px;
+        border-radius: 5px;
+        color: #fff;
+        background: #772eff;
+        box-shadow: none;
       }
 
       .register-link {
@@ -39,6 +54,7 @@
         text-decoration: none;
         color: #30008c;
         font-size: 0.9em;
+        margin-top: 10px;
 
         &:hover {
           text-decoration: underline;

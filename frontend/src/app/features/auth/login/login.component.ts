@@ -35,26 +35,32 @@ export class LoginComponent {
   ) {
     // Initialization of the FormBuilder in the constructor
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      emailOrUsername: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+      const { emailOrUsername, password } = this.loginForm.value;
 
-      if (!email || !password) {
+      if (!emailOrUsername || !password) {
         return;
       }
 
-      this.authService.login({ email, password }).subscribe({
+      this.authService.login({ emailOrUsername, password }).subscribe({
         next: (response) => {
           this.authService.saveToken(response.token);
           this.router.navigate(['/posts']);
         },
-        error: () => {
-          this.errorMessage = 'Email ou mot de passe incorrect';
+        error: (err) => {
+          if (err.status === 401) {
+            this.errorMessage = "Email/nom d'utilisateur ou mot de passe incorrect";
+          } else if (err.status === 403) {
+            this.errorMessage = 'Accès refusé';
+          } else {
+            this.errorMessage = 'Erreur de connexion. Veuillez réessayer.';
+          }
         },
       });
     }
