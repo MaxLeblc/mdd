@@ -42,7 +42,7 @@ public class AuthController {
         // A. The manager is asked to authenticate the user.
         // This will automatically call UserDetailsServiceImpl.loadUserByUsername.
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
+                new UsernamePasswordAuthenticationToken(loginRequest.emailOrUsername(), loginRequest.password()));
 
         // B. If it passes, we put the auth in the security context
         SecurityContextHolder.getContext().setAuthentication(authentication);

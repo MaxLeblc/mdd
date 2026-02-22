@@ -36,7 +36,16 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+          ),
+        ],
+      ],
     });
   }
 
@@ -51,10 +60,24 @@ export class RegisterComponent {
       this.authService.register({ username, email, password }).subscribe({
         next: (response) => {
           this.authService.saveToken(response.token);
+          this.authService.saveUserId(response.id);
           this.router.navigate(['/posts']);
         },
-        error: () => {
-          this.errorMessage = "Erreur lors de l'inscription. Cet email est peut-être déjà utilisé.";
+        error: (err) => {
+          if (err.status === 400 && err.error?.message) {
+            if (err.error.message.includes('Username')) {
+              this.errorMessage = "Ce nom d'utilisateur est déjà utilisé.";
+            } else if (err.error.message.includes('Email')) {
+              this.errorMessage = 'Cet email est déjà utilisé.';
+            } else {
+              this.errorMessage = err.error.message;
+            }
+          } else if (err.status === 401) {
+            this.errorMessage =
+              'Le mot de passe doit contenir au moins 8 caractères avec 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial (@$!%*?&).';
+          } else {
+            this.errorMessage = "Erreur lors de l'inscription. Veuillez vérifier vos informations.";
+          }
         },
       });
     }
