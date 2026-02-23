@@ -1,6 +1,6 @@
 <div class="feed-container">
   <div class="actions-header">
-    <button mat-raised-button color="primary">Créer un article</button>
+    <button mat-raised-button color="primary" routerLink="/post">Créer un article</button>
     <button mat-button (click)="toggleSort()" class="sort-button">
       <mat-icon>{{ sortAscending() ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
       Trier par date
@@ -25,12 +25,20 @@
 
       <mat-card-content>
         <p class="post-content">
-          {{ post.content.length > 200 ? (post.content | slice: 0 : 200) + '...' : post.content }}
+          {{
+            isExpanded(post.id)
+              ? post.content
+              : post.content.length > 200
+                ? (post.content | slice: 0 : 200) + '...'
+                : post.content
+          }}
         </p>
       </mat-card-content>
 
-      <mat-card-actions align="end">
-        <button mat-button color="primary">Lire la suite</button>
+      <mat-card-actions align="end" *ngIf="post.content.length > 200">
+        <button mat-button color="primary" (click)="toggleExpand(post.id)">
+          {{ isExpanded(post.id) ? 'Réduire' : 'Lire la suite' }}
+        </button>
       </mat-card-actions>
     </mat-card>
 
