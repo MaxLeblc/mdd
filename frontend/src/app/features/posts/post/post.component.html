@@ -1,0 +1,60 @@
+<div class="post-container">
+  <div class="back-button">
+    <button mat-icon-button (click)="goBack()" aria-label="Retour">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  <div class="form-wrapper">
+    <h1>Créer un nouvel article</h1>
+
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sélectionner un thème</mat-label>
+        <mat-select formControlName="topicId">
+          <mat-option *ngFor="let topic of topics" [value]="topic.id">
+            {{ topic.title }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="postForm.get('topicId')?.hasError('required')">
+          Veuillez sélectionner un thème
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Titre de l'article</mat-label>
+        <input matInput formControlName="title" placeholder="Ex: Mon premier article" />
+        <mat-error *ngIf="postForm.get('title')?.hasError('required')">
+          Le titre est requis
+        </mat-error>
+        <mat-error *ngIf="postForm.get('title')?.hasError('minlength')">
+          Le titre doit contenir au moins 3 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contenu de l'article</mat-label>
+        <textarea
+          matInput
+          formControlName="content"
+          placeholder="Écrivez votre article ici..."
+          rows="10"
+        ></textarea>
+        <mat-error *ngIf="postForm.get('content')?.hasError('required')">
+          Le contenu est requis
+        </mat-error>
+        <mat-error *ngIf="postForm.get('content')?.hasError('minlength')">
+          Le contenu doit contenir au moins 10 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid">
+          Créer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

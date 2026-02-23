@@ -19,4 +19,8 @@ export class PostService {
   public getFeed(): Observable<Post[]> {
     return this.httpClient.get<Post[]>(`${this.apiUrl}/feed`);
   }
+
+  public createPost(post: { topicId: number; title: string; content: string }): Observable<Post> {
+    return this.httpClient.post<Post>(this.apiUrl, post);
+  }
 }

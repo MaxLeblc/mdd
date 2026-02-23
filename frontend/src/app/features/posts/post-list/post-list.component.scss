@@ -42,16 +42,18 @@
 
   .posts-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; // 2 colonnes par défaut
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+    grid-auto-rows: auto; // Permet aux cartes de s'adapter à leur contenu
 
     .post-card {
-      cursor: pointer;
-      transition: transform 0.2s;
+      cursor: default;
+      transition: all 0.3s ease;
       background: none;
       box-shadow: none;
       border: 1px solid #ddd;
       border-radius: 5px;
+      height: fit-content; // S'adapte au contenu
 
       mat-card-header {
         display: flex;
