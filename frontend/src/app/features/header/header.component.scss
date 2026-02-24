@@ -13,7 +13,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    // margin: 0 auto;
     padding: 0 20px;
   }
 }
@@ -30,7 +29,10 @@
 // Navigation Desktop
 .nav-desktop {
   display: flex;
+  flex: 1;
+  justify-content: flex-end;
   gap: 10px;
+  margin-right: 40px;
 
   button {
     font-size: 16px;
@@ -48,6 +50,14 @@
 .user-menu-desktop {
   display: flex;
   align-items: center;
+
+  button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .user-avatar {
     font-size: 32px;
@@ -70,6 +80,21 @@
   left: 0;
   right: 0;
   z-index: 999;
+  background-color: transparent;
+  pointer-events: none;
+
+  ::ng-deep .mat-drawer-container {
+    background-color: transparent !important;
+  }
+
+  ::ng-deep .mat-drawer-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    pointer-events: auto;
+  }
+
+  ::ng-deep .mat-sidenav-container {
+    background-color: transparent !important;
+  }
 
   ::ng-deep mat-sidenav {
     width: 280px;

@@ -1,0 +1,71 @@
+<div class="post-detail-container">
+  <div class="back-button">
+    <button mat-icon-button (click)="goBack()" aria-label="Retour">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="loading()" class="loading">
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="errorMessage() && !loading()" class="error-message">
+    <p>{{ errorMessage() }}</p>
+  </div>
+
+  <div *ngIf="post() && !loading()" class="content-wrapper">
+    <div class="post-header">
+      <h1>{{ post()!.title }}</h1>
+      <div class="post-meta">
+        <span class="meta-item">Date: {{ post()!.createdAt | date: 'dd/MM/yyyy' }}</span>
+        <span class="meta-item">Auteur: {{ post()!.authorName }}</span>
+        <span class="meta-item">Thème: {{ post()!.topicName }}</span>
+      </div>
+    </div>
+
+    <div class="post-content">
+      <p>{{ post()!.content }}</p>
+    </div>
+
+    <div class="comments-section">
+      <h2>Commentaires</h2>
+
+      <div class="comments-list">
+        <div *ngFor="let comment of comments()" class="comment-item">
+          <div class="comment-header">
+            <span class="comment-author">{{ comment.authorName || currentUsername() }}</span>
+          </div>
+          <div class="comment-content">
+            <p>{{ comment.content }}</p>
+          </div>
+        </div>
+
+        <div *ngIf="comments().length === 0" class="no-comments">
+          <p>Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+        </div>
+      </div>
+
+      <div class="comment-form">
+        <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Écrivez ici votre commentaire</mat-label>
+            <textarea matInput formControlName="content" rows="3"></textarea>
+            <mat-error *ngIf="commentForm.get('content')?.hasError('minlength')">
+              Le commentaire doit contenir au moins 3 caractères
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            mat-icon-button
+            color="primary"
+            type="submit"
+            [disabled]="commentForm.invalid"
+            class="submit-button"
+          >
+            <mat-icon>send</mat-icon>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -23,7 +23,11 @@ export class App {
         const url = event.url;
         // Affiche le header sur les pages authentifiées
         this.showHeader.set(
-          url.startsWith('/posts') || url.startsWith('/topics') || url.startsWith('/profile'),
+          url.startsWith('/post') ||
+            url.startsWith('/posts') ||
+            url.startsWith('/post-comment') ||
+            url.startsWith('/topics') ||
+            url.startsWith('/profile'),
         );
       });
   }

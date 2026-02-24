@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PostService } from '../../../services/post.service';
 import { Post } from '../../../interfaces/post.interface';
 import { MatCardModule } from '@angular/material/card';
@@ -18,9 +18,11 @@ export class PostListComponent implements OnInit {
   posts = signal<Post[]>([]);
   errorMessage = signal('');
   sortAscending = signal(false); // false = plus récent en premier (desc), true = plus ancien en premier (asc)
-  expandedPosts = signal<Set<number>>(new Set());
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.postService.getFeed().subscribe({
@@ -48,17 +50,7 @@ export class PostListComponent implements OnInit {
     this.posts.set(sorted);
   }
 
-  toggleExpand(postId: number): void {
-    const expanded = new Set(this.expandedPosts());
-    if (expanded.has(postId)) {
-      expanded.delete(postId);
-    } else {
-      expanded.add(postId);
-    }
-    this.expandedPosts.set(expanded);
-  }
-
-  isExpanded(postId: number): boolean {
-    return this.expandedPosts().has(postId);
+  navigateToPost(postId: number): void {
+    this.router.navigate(['/posts', postId]);
   }
 }
