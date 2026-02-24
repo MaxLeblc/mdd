@@ -28,8 +28,8 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static CustomUserDetails build(Long id, String email, String password) {
-        return new CustomUserDetails(id, email, email, password, List.of());
+    public static CustomUserDetails build(Long id, String username, String email, String password) {
+        return new CustomUserDetails(id, username, email, password, List.of());
     }
 
     @Override

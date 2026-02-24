@@ -26,6 +26,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         .orElseThrow(() -> new UsernameNotFoundException("User not found with email or username: " + emailOrUsername)));
 
         // 2. Convert it to CustomUserDetails (includes ID)
-        return CustomUserDetails.build(user.getId(), user.getEmail(), user.getPassword());
+        return CustomUserDetails.build(user.getId(), user.getUsername(), user.getEmail(), user.getPassword());
+    }
+
+    // Load user by ID (used by JWT authentication)
+    @Transactional(readOnly = true)
+    public UserDetails loadUserById(Long userId) throws UsernameNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
+
+        return CustomUserDetails.build(user.getId(), user.getUsername(), user.getEmail(), user.getPassword());
     }
 }

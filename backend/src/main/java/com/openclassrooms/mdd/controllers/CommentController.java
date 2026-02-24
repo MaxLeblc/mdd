@@ -40,6 +40,7 @@ public class CommentController {
             @Valid @RequestBody CommentCreateDto input,
             Principal principal) {
         
+        // principal.getName() returns the username contained in the JWT token
         Comment comment = commentService.create(postId, principal.getName(), input.content());
         return ResponseEntity.ok(commentMapper.toDto(comment));
     }

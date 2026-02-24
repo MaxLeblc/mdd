@@ -23,4 +23,8 @@ export class PostService {
   public createPost(post: { topicId: number; title: string; content: string }): Observable<Post> {
     return this.httpClient.post<Post>(this.apiUrl, post);
   }
+
+  public getPostById(id: number): Observable<Post> {
+    return this.httpClient.get<Post>(`${this.apiUrl}/${id}`);
+  }
 }

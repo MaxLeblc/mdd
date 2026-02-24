@@ -12,7 +12,7 @@
       <p>{{ errorMessage() }}</p>
     </div>
 
-    <mat-card class="post-card" *ngFor="let post of posts()">
+    <mat-card class="post-card" *ngFor="let post of posts()" (click)="navigateToPost(post.id)">
       <mat-card-header>
         <mat-card-title>{{ post.topicName }} - {{ post.title }}</mat-card-title>
         <mat-card-content>
@@ -25,21 +25,9 @@
 
       <mat-card-content>
         <p class="post-content">
-          {{
-            isExpanded(post.id)
-              ? post.content
-              : post.content.length > 200
-                ? (post.content | slice: 0 : 200) + '...'
-                : post.content
-          }}
+          {{ post.content.length > 200 ? (post.content | slice: 0 : 200) + '...' : post.content }}
         </p>
       </mat-card-content>
-
-      <mat-card-actions align="end" *ngIf="post.content.length > 200">
-        <button mat-button color="primary" (click)="toggleExpand(post.id)">
-          {{ isExpanded(post.id) ? 'Réduire' : 'Lire la suite' }}
-        </button>
-      </mat-card-actions>
     </mat-card>
 
     <div *ngIf="posts().length === 0 && !errorMessage()" class="no-posts">
