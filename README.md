@@ -287,22 +287,6 @@ mdd/
 - Automatic logout on token expiration (401 errors)
 - Protected API endpoints requiring authentication
 
-## Testing
-
-### Backend Tests
-
-```bash
-cd backend
-mvn test
-```
-
-### Frontend Tests
-
-```bash
-cd frontend
-npm test
-```
-
 ## License
 
 This project is part of an OpenClassrooms training program.
