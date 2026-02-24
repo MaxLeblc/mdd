@@ -1,12 +1,12 @@
 package com.openclassrooms.mdd.security.jwt;
 
+import com.openclassrooms.mdd.security.services.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -27,26 +27,27 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    // 1. Generate the Token
+    // 1. Generate the Token with userId as subject (best practice)
     public String generateJwtToken(Authentication authentication) {
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
+                .subject(userPrincipal.getId().toString()) // Use immutable userId
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key(), Jwts.SIG.HS256) // Signature moderne
+                .signWith(key(), Jwts.SIG.HS256)
                 .compact();
     }
 
-    // 2. Retrieve the username from the token
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser()
+    // 2. Retrieve the userId from the token
+    public Long getUserIdFromJwtToken(String token) {
+        String subject = Jwts.parser()
                 .verifyWith(key())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+        return Long.parseLong(subject);
     }
 
     // 3. Validate the token

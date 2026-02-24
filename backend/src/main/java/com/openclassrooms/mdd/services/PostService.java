@@ -40,12 +40,10 @@ public class PostService {
                 .orElseThrow(() -> new NoSuchElementException("Post not found with id: " + id));
     }
 
-    public List<Post> findByUserSubscriptions(String email, boolean sortByDateDesc) {
+    public List<Post> findByUserSubscriptions(String username, boolean sortByDateDesc) {
         // 1. Récupérer l'utilisateur avec ses abonnements
-        User user = userRepository.findById(userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User not found with email: " + email))
-                .getId())
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
 
         // 2. Si pas d'abonnements, retourner liste vide
         if (user.getSubscriptions() == null || user.getSubscriptions().isEmpty()) {
@@ -60,10 +58,10 @@ public class PostService {
         return postRepository.findByTopicIn(user.getSubscriptions(), sort);
     }
 
-    public Post create(String email, PostCreateDto input) {
+    public Post create(String username, PostCreateDto input) {
         // 1. Find the author
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User not found with email: " + email));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
 
         // 2. Find the theme
         Topic topic = topicRepository.findById(input.topicId())
