@@ -23,4 +23,11 @@ export class UserService {
   unsubscribe(userId: number, topicId: number): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${userId}/unsubscribe/${topicId}`, {});
   }
+
+  updateUser(
+    userId: number,
+    data: { username?: string; email?: string; password?: string },
+  ): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${userId}`, data);
+  }
 }

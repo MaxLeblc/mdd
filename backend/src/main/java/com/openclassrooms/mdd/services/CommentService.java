@@ -30,8 +30,8 @@ public class CommentService {
     }
 
     // Create a comment
-    public Comment create(Long postId, String email, String content) {
-        User user = userRepository.findByEmail(email)
+    public Comment create(Long postId, String username, String content) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
         
         Post post = postRepository.findById(postId)

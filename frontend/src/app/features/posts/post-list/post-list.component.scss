@@ -46,13 +46,18 @@
     grid-auto-rows: auto; // Permet aux cartes de s'adapter à leur contenu
 
     .post-card {
-      cursor: default;
+      cursor: pointer;
       transition: all 0.3s ease;
       background: none;
       box-shadow: none;
       border: 1px solid #ddd;
       border-radius: 5px;
       height: fit-content; // S'adapte au contenu
+
+      &:hover {
+        border-color: #772eff;
+        transform: translateY(-2px);
+      }
 
       mat-card-header {
         display: flex;

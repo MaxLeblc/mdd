@@ -1,0 +1,88 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <button mat-icon-button class="back-button" (click)="logout()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage()" class="error-message">
+    {{ errorMessage() }}
+  </div>
+
+  <div *ngIf="successMessage()" class="success-message">
+    {{ successMessage() }}
+  </div>
+
+  <div class="profile-section">
+    <h1>Profil utilisateur</h1>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Votre nom d'utilisateur" />
+        <mat-error *ngIf="profileForm.get('username')?.hasError('required')">
+          Le nom d'utilisateur est requis
+        </mat-error>
+        <mat-error *ngIf="profileForm.get('username')?.hasError('minlength')">
+          Le nom d'utilisateur doit contenir au moins 3 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="email@email.fr" />
+        <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+          L'email est requis
+        </mat-error>
+        <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+          L'email n'est pas valide
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          placeholder="Nouveau mot de passe"
+        />
+        <mat-error *ngIf="profileForm.get('password')?.hasError('minlength')">
+          Le mot de passe doit contenir au moins 8 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="profileForm.invalid"
+        class="save-button"
+      >
+        Sauvegarder
+      </button>
+    </form>
+  </div>
+
+  <div class="subscriptions-section">
+    <h2>Abonnements</h2>
+
+    <div class="subscriptions-grid">
+      <div *ngFor="let topic of subscriptions()" class="subscription-card">
+        <h3>{{ topic.title }}</h3>
+        <p class="description">{{ topic.description }}</p>
+        <button
+          mat-raised-button
+          class="unsubscribe-button"
+          (click)="unsubscribeFromTopic(topic.id)"
+        >
+          Se désabonner
+        </button>
+      </div>
+
+      <div *ngIf="subscriptions().length === 0" class="no-subscriptions">
+        <p>Vous n'êtes abonné à aucun thème pour le moment.</p>
+      </div>
+    </div>
+  </div>
+</div>
