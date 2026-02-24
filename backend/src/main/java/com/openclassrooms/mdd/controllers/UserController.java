@@ -51,15 +51,15 @@ public class UserController {
             @Valid @RequestBody UserUpdateRequest request,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         
-        // Vérifier que l'utilisateur modifie bien son propre profil
+        // Verify that the user is modifying their own profile
         if (!userDetails.getId().equals(id)) {
             throw new AccessDeniedException("You can only update your own profile");
         }
 
-        // Mettre à jour l'utilisateur
+        // Update user
         User updatedUser = userService.updateUser(id, request);
 
-        // Retourner les données mises à jour (pas besoin de nouveau token car userId ne change jamais)
+        // Return the updated data (no need for a new token because userId never changes)
         return ResponseEntity.ok(userMapper.toDto(updatedUser));
     }
 }

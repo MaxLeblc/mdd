@@ -78,7 +78,7 @@ export class UserProfilComponent implements OnInit {
         email: formValue.email,
       };
 
-      // Ajouter le mot de passe uniquement s'il a été modifié
+      // Add the password only if it has been changed
       if (formValue.password && formValue.password.trim()) {
         updateData.password = formValue.password;
       }
@@ -87,13 +87,12 @@ export class UserProfilComponent implements OnInit {
         next: (updatedUser) => {
           this.successMessage.set('Profil mis à jour avec succès');
           this.errorMessage.set('');
-          
-          // Mettre à jour les données locales
+
           this.user.set(updatedUser);
           this.profileForm.patchValue({
             username: updatedUser.username,
             email: updatedUser.email,
-            password: '', // Réinitialiser le mot de passe
+            password: '',
           });
         },
         error: () => {
@@ -109,7 +108,6 @@ export class UserProfilComponent implements OnInit {
     if (userId) {
       this.userService.unsubscribe(userId, topicId).subscribe({
         next: () => {
-          // Retirer le topic de la liste locale
           this.subscriptions.update((current) => current.filter((t) => t.id !== topicId));
           this.successMessage.set('Désabonnement réussi');
           this.errorMessage.set('');

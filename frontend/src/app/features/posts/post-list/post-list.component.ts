@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class PostListComponent implements OnInit {
   posts = signal<Post[]>([]);
   errorMessage = signal('');
-  sortAscending = signal(false); // false = plus récent en premier (desc), true = plus ancien en premier (asc)
+  sortAscending = signal(false); // false = newest first (desc), true = oldest first (asc)
 
   constructor(
     private postService: PostService,

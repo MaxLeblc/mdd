@@ -34,7 +34,6 @@ export class TopicListComponent implements OnInit {
       return;
     }
 
-    // Charger les topics
     this.topicService.getTopics().subscribe({
       next: (topics) => {
         this.topics.set(topics);
@@ -44,7 +43,6 @@ export class TopicListComponent implements OnInit {
       },
     });
 
-    // Charger les abonnements de l'utilisateur
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
         const subscribedIds = new Set(user.subscriptions.map((topic) => topic.id));
@@ -66,7 +64,6 @@ export class TopicListComponent implements OnInit {
     const isCurrentlySubscribed = this.isSubscribed(topicId);
 
     if (isCurrentlySubscribed) {
-      // Se désabonner
       this.userService.unsubscribe(this.userId, topicId).subscribe({
         next: () => {
           const newSet = new Set(this.subscribedTopicIds());
@@ -78,7 +75,6 @@ export class TopicListComponent implements OnInit {
         },
       });
     } else {
-      // S'abonner
       this.userService.subscribe(this.userId, topicId).subscribe({
         next: () => {
           const newSet = new Set(this.subscribedTopicIds());

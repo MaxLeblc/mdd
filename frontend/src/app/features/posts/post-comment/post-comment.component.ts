@@ -77,7 +77,6 @@ export class PostCommentComponent implements OnInit {
       next: (data) => {
         this.post.set(data);
         this.loading.set(false);
-        console.log('Article chargé:', data);
       },
       error: (err) => {
         console.error("Erreur lors du chargement de l'article:", err);
@@ -95,7 +94,6 @@ export class PostCommentComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur lors du chargement des commentaires:', err);
-        // On ne bloque pas l'affichage si les commentaires échouent
       },
     });
   }
@@ -109,9 +107,7 @@ export class PostCommentComponent implements OnInit {
       }
 
       this.commentService.createComment(this.post()!.id, content).subscribe({
-        next: (newComment) => {
-          console.log('Nouveau commentaire créé:', newComment);
-          // Recharger les commentaires pour avoir les infos complètes du backend
+        next: () => {
           this.loadComments(this.post()!.id);
           this.commentForm.reset();
         },

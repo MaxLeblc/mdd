@@ -34,8 +34,7 @@ public class PostController {
 
     @GetMapping("/feed")
     public ResponseEntity<List<PostDto>> getFeed(@RequestParam(defaultValue = "true") boolean sort, Principal principal) {
-        // Récupère uniquement les posts des topics auxquels l'utilisateur est abonné
-        // principal.getName() returns the username contained in the JWT token
+        // Retrieves only posts from topics to which the user is subscribed
         List<Post> posts = postService.findByUserSubscriptions(principal.getName(), sort);
         return ResponseEntity.ok(postMapper.toDtos(posts));
     }
@@ -48,7 +47,6 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostCreateDto input, Principal principal) {
-        // principal.getName() returns the username contained in the JWT token
         Post createdPost = postService.create(principal.getName(), input);
         return ResponseEntity.ok(postMapper.toDto(createdPost));
     }

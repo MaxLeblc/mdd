@@ -16,12 +16,12 @@ export class App {
   showHeader = signal(false);
 
   constructor(private router: Router) {
-    // Détecte les changements de route pour afficher/masquer le header
+    // Detects route changes to show/hide the header
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         const url = event.url;
-        // Affiche le header sur les pages authentifiées
+        // Displays the header on authenticated pages
         this.showHeader.set(
           url.startsWith('/post') ||
             url.startsWith('/posts') ||

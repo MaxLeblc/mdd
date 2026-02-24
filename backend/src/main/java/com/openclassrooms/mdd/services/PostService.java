@@ -41,16 +41,16 @@ public class PostService {
     }
 
     public List<Post> findByUserSubscriptions(String username, boolean sortByDateDesc) {
-        // 1. Récupérer l'utilisateur avec ses abonnements
+        // 1. Retrieve the user with their subscriptions
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
 
-        // 2. Si pas d'abonnements, retourner liste vide
+        // 2. If no subscriptions, return an empty list
         if (user.getSubscriptions() == null || user.getSubscriptions().isEmpty()) {
             return List.of();
         }
 
-        // 3. Récupérer les posts des topics auxquels l'utilisateur est abonné
+        // 3. Retrieve the posts from the topics the user is subscribed to
         Sort sort = sortByDateDesc
             ? Sort.by("createdAt").descending()
             : Sort.by("createdAt").ascending();
@@ -76,6 +76,7 @@ public class PostService {
                 .build();
         // The createdAt date will be automatically managed by @CreatedDate in the entity
 
+        // 3. Save the post
         return postRepository.save(post);
     }
 }
