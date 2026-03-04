@@ -4,8 +4,6 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from '../../../services/post.service';
 import { CommentService } from '../../../services/comment.service';
-import { AuthService } from '../../../services/auth.service';
-import { UserService } from '../../../services/user.service';
 import { Post } from '../../../interfaces/post.interface';
 import { Comment } from '../../../interfaces/comment.interface';
 import { MatCardModule } from '@angular/material/card';
@@ -33,14 +31,11 @@ export class PostCommentComponent implements OnInit {
   commentForm;
   errorMessage = signal('');
   loading = signal(true);
-  currentUsername = signal<string>('Utilisateur');
 
   constructor(
     private fb: FormBuilder,
     private postService: PostService,
     private commentService: CommentService,
-    private authService: AuthService,
-    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
   ) {
@@ -54,21 +49,6 @@ export class PostCommentComponent implements OnInit {
     if (postId) {
       this.loadPost(postId);
       this.loadComments(postId);
-    }
-    this.loadCurrentUser();
-  }
-
-  loadCurrentUser(): void {
-    const userId = this.authService.getUserId();
-    if (userId) {
-      this.userService.getUserById(userId).subscribe({
-        next: (user) => {
-          this.currentUsername.set(user.username);
-        },
-        error: () => {
-          console.error("Impossible de charger l'utilisateur");
-        },
-      });
     }
   }
 
