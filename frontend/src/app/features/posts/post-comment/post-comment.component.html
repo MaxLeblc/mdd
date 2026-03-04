@@ -33,7 +33,7 @@
       <div class="comments-list">
         <div *ngFor="let comment of comments()" class="comment-item">
           <div class="comment-header">
-            <span class="comment-author">{{ comment.authorName || currentUsername() }}</span>
+            <span class="comment-author">{{ comment.authorUsername }}</span>
           </div>
           <div class="comment-content">
             <p>{{ comment.content }}</p>
